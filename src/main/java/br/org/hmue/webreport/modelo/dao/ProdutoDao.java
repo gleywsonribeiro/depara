@@ -52,4 +52,32 @@ public class ProdutoDao implements Serializable {
 
         return lista;
     }
+    
+//    public List<String> listarEspecies() {
+//        List<String> lista = new ArrayList<>();
+//
+//        String sql = "select * from depara_produto where rownum <= 10";
+//
+//        try {
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                Produto p = new Produto();
+//                p.setCodigo(resultSet.getLong("cd_produto"));
+//                p.setDescricao(resultSet.getString("ds_produto"));
+//                p.setEspecie(resultSet.getString("ds_especie"));
+//                p.setClasse(resultSet.getString("ds_classe"));
+//                p.setSubclasse(resultSet.getString("ds_sub_cla"));
+//                p.setDeparaProduto((Long)resultSet.getObject("cd_depara_integra"));
+//                lista.add(p);
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return lista;
+//    } 
+    
 }
