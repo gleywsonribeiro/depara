@@ -8,12 +8,13 @@ package br.org.hmue.webreport.controller;
 import br.org.hmue.webreport.jsf.util.JsfUtil;
 import br.org.hmue.webreport.modelo.Usuario;
 import java.io.IOException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Gleywson
  */
-@Named(value = "loginController")
+@ManagedBean
 @SessionScoped
 public class LoginController implements Serializable {
 

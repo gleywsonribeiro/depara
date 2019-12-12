@@ -9,20 +9,18 @@ import br.org.hmue.webreport.jsf.util.JsfUtil;
 import br.org.hmue.webreport.modelo.Depara;
 import br.org.hmue.webreport.modelo.TipoDepara;
 import br.org.hmue.webreport.modelo.dao.DeparaDao;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author gleywson
  */
-@Named(value = "deparaController")
+@ManagedBean
 @RequestScoped
 public class DeparaController {
 
-    @Inject
-    DeparaDao dao;
+    DeparaDao dao = new DeparaDao();
     Depara depara = new Depara(TipoDepara.CODIGO_PRODUTO, 17591L, 1989L);
 
     public void salvar() {

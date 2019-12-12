@@ -11,22 +11,19 @@ import br.org.hmue.webreport.modelo.dao.ProdutoDao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author gleywson
  */
-@Named(value = "produtoController")
+@ManagedBean
 @ViewScoped
 public class ProdutoController implements Serializable {
 
-    @Inject
-    private ProdutoDao dao;
+   
+    private final ProdutoDao dao = new ProdutoDao();
     
     private List<Produto> produtos = new ArrayList<>();
     

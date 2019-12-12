@@ -13,8 +13,9 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Gleywson
  */
-@Named(value = "ccController")
+@ManagedBean
 @RequestScoped
 public class CcController {
 
