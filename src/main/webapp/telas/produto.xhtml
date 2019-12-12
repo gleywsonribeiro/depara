@@ -12,10 +12,54 @@
             <h:outputText value="Depara de Produtos" style="font-size: x-large; font-weight: 400; color: darkblue"/>
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
-                    <p:commandButton value="Carregar" action="#{produtoController.carregaProdutos()}" update="tabela"/>
+                    <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela"/>
+                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela"/>
                 </p:toolbarGroup>
-
             </p:toolbar>
+
+            <p:panelGrid columns="6" style="margin-bottom: 20px; width: 50%">
+                <p:outputLabel value="Espécie" for="especie"/>
+                <p:selectOneMenu id="especie" style="width: 200px" 
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems  var="item"
+                                    />
+                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Classe" for="classe"/>
+                <p:selectOneMenu id="classe" style="width: 200px" 
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems  var="item"
+                                    />
+                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Subclasse" for="subclasse"/>
+                <p:selectOneMenu id="subclasse" style="width: 200px" 
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems  var="item"
+                                    />
+                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Produto" for="produto"/>
+                <p:selectOneMenu id="produto" style="width: 200px" 
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems  var="item"
+                                    />
+                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Não nulos" for="naonulos" />
+                <p:selectBooleanCheckbox id="naonulos" />
+               
+
+            </p:panelGrid>
+
             <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="5"
                          emptyMessage="Sem registros" editable="true" editMode="cell">
                 <p:column headerText="Código MV" style="width: 100px; text-align: center">
