@@ -8,59 +8,57 @@
 
     <ui:define name="corpo">
         <h:form>
-            <p:growl autoUpdate="true"/>
+            <p:growl id="mensagens"/>
             <h:outputText value="Depara de Produtos" style="font-size: x-large; font-weight: 400; color: darkblue"/>
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
-                    <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela"/>
+                    <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela mensagens painel"/>
                     <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela"/>
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panelGrid columns="6" style="margin-bottom: 20px; width: 50%">
+            <p:panelGrid id="painel" columns="6" style="margin-bottom: 20px; width: 50%">
                 <p:outputLabel value="Espécie" for="especie"/>
-                <p:selectOneMenu id="especie" style="width: 200px" 
+                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="item"
-                                    />
-                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                    <f:selectItems  var="especie" value="#{produtoController.especies}" itemLabel="#{especie.descricao}" itemValue="#{especie.codigo}"  />
+                    <p:ajax listener="#{produtoController.atualizaClasse()}" update="classe mensagens" process="@this"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Classe" for="classe"/>
-                <p:selectOneMenu id="classe" style="width: 200px" 
+                <p:selectOneMenu id="classe" style="width: 200px" value="#{produtoController.classe}"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="item"
+                    <f:selectItems  var="classe" value="#{produtoController.classes}" itemLabel="#{classe.descricao}" itemValue="#{classe.codigo}"
                                     />
-                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
+                    <p:ajax listener="#{produtoController.atualizaSubClasse()}" update="subclasse mensagens" process="@this"/>
                 </p:selectOneMenu>
-                
+
                 <p:outputLabel value="Subclasse" for="subclasse"/>
-                <p:selectOneMenu id="subclasse" style="width: 200px" 
+                <p:selectOneMenu id="subclasse" style="width: 200px" value="#{produtoController.subclasse}"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="item"
+                    <f:selectItems  var="subclasse" value="#{produtoController.subClasses}" itemLabel="#{subclasse.descricao}" itemValue="#{subclasse.codigo}"
                                     />
                     <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
                 </p:selectOneMenu>
-                
+
                 <p:outputLabel value="Produto" for="produto"/>
                 <p:selectOneMenu id="produto" style="width: 200px" 
                                  filter="true" filterMatchMode="contains">
-                    <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="item"
-                                    />
+                    <f:selectItem itemLabel="Selecione" />
+                    <f:selectItems  var="item"  />
                     <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
                 </p:selectOneMenu>
-                
+
                 <p:outputLabel value="Não nulos" for="naonulos" />
                 <p:selectBooleanCheckbox id="naonulos" />
-               
+
 
             </p:panelGrid>
 
-            <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="5"
+            <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="10"
                          emptyMessage="Sem registros" editable="true" editMode="cell">
                 <p:column headerText="Código MV" style="width: 100px; text-align: center">
                     <h:outputText value="#{produto.codigo}"/>
@@ -69,13 +67,13 @@
                     <h:outputText value="#{produto.descricao}"/>
                 </p:column>
                 <p:column headerText="Espécie">
-                    <h:outputText value="#{produto.especie}"/>
+                    <h:outputText value="#{produto.especie.descricao}"/>
                 </p:column>
                 <p:column headerText="Classe">
-                    <h:outputText value="#{produto.classe}"/>
+                    <h:outputText value="#{produto.classe.descricao}"/>
                 </p:column>
                 <p:column headerText="Subclasse">
-                    <h:outputText value="#{produto.subclasse}"/>
+                    <h:outputText value="#{produto.subclasse.descricao}"/>
                 </p:column>
                 <p:column headerText="Código Portal" style="width: 100px; text-align: center">
                     <p:cellEditor>

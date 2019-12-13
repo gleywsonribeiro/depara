@@ -12,16 +12,16 @@ package br.org.hmue.webreport.modelo;
 public class Produto {
     private long codigo;
     private String descricao;
-    private String especie;
-    private String classe;
-    private String subclasse;
+    private Especie especie;
+    private Classe classe;
+    private SubClasse subclasse;
     
     private Long deparaProduto;
 
     public Produto() {
     }
 
-    public Produto(long codigo, String descricao, String especie, String classe, String subclasse) {
+    public Produto(long codigo, String descricao, Especie especie, Classe classe, SubClasse subclasse) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.especie = especie;
@@ -45,27 +45,27 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getEspecie() {
+    public Especie getEspecie() {
         return especie;
     }
 
-    public void setEspecie(String especie) {
+    public void setEspecie(Especie especie) {
         this.especie = especie;
     }
 
-    public String getClasse() {
+    public Classe getClasse() {
         return classe;
     }
 
-    public void setClasse(String classe) {
+    public void setClasse(Classe classe) {
         this.classe = classe;
     }
 
-    public String getSubclasse() {
+    public SubClasse getSubclasse() {
         return subclasse;
     }
 
-    public void setSubclasse(String subclasse) {
+    public void setSubclasse(SubClasse subclasse) {
         this.subclasse = subclasse;
     }
 
