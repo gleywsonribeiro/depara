@@ -17,7 +17,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.PostLoad;
 
 /**
  *
@@ -29,6 +28,7 @@ public class ProdutoController implements Serializable {
 
     private final ProdutoDao dao = new ProdutoDao();
 
+
     private List<Produto> produtos = new ArrayList<>();
     private List<Especie> especies = new ArrayList<>();
     private List<Classe> classes = new ArrayList<>();
@@ -37,23 +37,24 @@ public class ProdutoController implements Serializable {
     private Long classe;
     private Long subclasse;
 
+
     @PostConstruct
     private void init() {
         especies = dao.listarEspecies();
     }
 
     public void carregaProdutos() {
-        produtos = dao.listarTudo();
-        JsfUtil.addMessage("Produtos carregados com sucesso!");
+        produtos = dao.listarProdutos(especie, classe, subclasse);
     }
 
     public void atualizaClasse() {
         classes = dao.listarClasses(especie);
     }
-    
+
     public void atualizaSubClasse() {
         subClasses = dao.listarSubClasses(classe);
     }
+
     
     public List<Produto> getProdutos() {
         return produtos;
@@ -95,5 +96,5 @@ public class ProdutoController implements Serializable {
         this.subclasse = subclasse;
     }
 
-    
+
 }

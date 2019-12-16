@@ -5,11 +5,14 @@
  */
 package br.org.hmue.webreport.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gleywson
  */
-public class Classe {
+public class Classe implements Serializable {
+
     private Long codigo;
     private String descricao;
     private Especie especie;
@@ -46,6 +49,5 @@ public class Classe {
     public void setEspecie(Especie especie) {
         this.especie = especie;
     }
-    
-    
+
 }

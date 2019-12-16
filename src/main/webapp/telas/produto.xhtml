@@ -13,13 +13,13 @@
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
                     <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela mensagens painel"/>
-                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela"/>
+                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela" process="tabela"/>
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panelGrid id="painel" columns="6" style="margin-bottom: 20px; width: 50%">
+            <p:panelGrid id="painel" columns="5" style="margin-bottom: 20px;">
                 <p:outputLabel value="Espécie" for="especie"/>
-                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}"
+                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}" required="true"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems  var="especie" value="#{produtoController.especies}" itemLabel="#{especie.descricao}" itemValue="#{especie.codigo}"  />
@@ -27,43 +27,21 @@
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Classe" for="classe"/>
-                <p:selectOneMenu id="classe" style="width: 200px" value="#{produtoController.classe}"
+                <p:selectOneMenu id="classe" style="width: 200px" value="#{produtoController.classe}" 
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems  var="classe" value="#{produtoController.classes}" itemLabel="#{classe.descricao}" itemValue="#{classe.codigo}"
                                     />
-                    <p:ajax listener="#{produtoController.atualizaSubClasse()}" update="subclasse mensagens" process="@this"/>
                 </p:selectOneMenu>
-
-                <p:outputLabel value="Subclasse" for="subclasse"/>
-                <p:selectOneMenu id="subclasse" style="width: 200px" value="#{produtoController.subclasse}"
-                                 filter="true" filterMatchMode="contains">
-                    <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="subclasse" value="#{produtoController.subClasses}" itemLabel="#{subclasse.descricao}" itemValue="#{subclasse.codigo}"
-                                    />
-                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
-                </p:selectOneMenu>
-
-                <p:outputLabel value="Produto" for="produto"/>
-                <p:selectOneMenu id="produto" style="width: 200px" 
-                                 filter="true" filterMatchMode="contains">
-                    <f:selectItem itemLabel="Selecione" />
-                    <f:selectItems  var="item"  />
-                    <!--<p:ajax listener="{cadastroOSController.atualizarMotivos()}" update="motivo" process="@this"/>-->
-                </p:selectOneMenu>
-
-                <p:outputLabel value="Não nulos" for="naonulos" />
-                <p:selectBooleanCheckbox id="naonulos" />
-
 
             </p:panelGrid>
 
-            <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="10"
+            <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="20"
                          emptyMessage="Sem registros" editable="true" editMode="cell">
                 <p:column headerText="Código MV" style="width: 100px; text-align: center">
                     <h:outputText value="#{produto.codigo}"/>
                 </p:column>
-                <p:column headerText="Descrição">
+                <p:column headerText="Descrição" style="width: 40%">
                     <h:outputText value="#{produto.descricao}"/>
                 </p:column>
                 <p:column headerText="Espécie">
