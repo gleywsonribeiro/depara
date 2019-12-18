@@ -15,18 +15,20 @@ public class Produto {
     private Especie especie;
     private Classe classe;
     private SubClasse subclasse;
+    private boolean novo;
     
     private Long deparaProduto;
 
     public Produto() {
     }
 
-    public Produto(long codigo, String descricao, Especie especie, Classe classe, SubClasse subclasse) {
+    public Produto(long codigo, String descricao, Especie especie, Classe classe, SubClasse subclasse, boolean novo) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.especie = especie;
         this.classe = classe;
         this.subclasse = subclasse;
+        this.novo = novo;
     }
 
     public long getCodigo() {
@@ -77,5 +79,24 @@ public class Produto {
         this.deparaProduto = deparaProduto;
     }
 
+    public boolean isNovo() {
+        return novo;
+    }
+
+    public void setNovo(boolean novo) {
+        this.novo = novo;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "codigo=" + codigo + ", descricao=" + descricao + ", novo=" + novo + ", deparaProduto=" + deparaProduto + '}';
+    }
+
+    
+    
+    
+
+    
+    
    
 }

@@ -7,19 +7,19 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="corpo">
-        <h:form>
-            <p:growl id="mensagens"/>
+        <h:form id="form">
+            <p:messages id="mensagens" closable="true"/>
             <h:outputText value="Depara de Produtos" style="font-size: x-large; font-weight: 400; color: darkblue"/>
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
                     <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela mensagens painel"/>
-                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela" process="tabela"/>
+                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela mensagens" action="#{produtoController.salvar()}" />
                 </p:toolbarGroup>
             </p:toolbar>
 
             <p:panelGrid id="painel" columns="5" style="margin-bottom: 20px;">
                 <p:outputLabel value="Espécie" for="especie"/>
-                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}" required="true"
+                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}" required="true" requiredMessage="Escolha uma espécie"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems  var="especie" value="#{produtoController.especies}" itemLabel="#{especie.descricao}" itemValue="#{especie.codigo}"  />
@@ -63,6 +63,11 @@
                         </f:facet>
                     </p:cellEditor>
                     <!--<f:convertNumber/>-->
+                </p:column>
+                <p:column style="width: 100px; text-align: center">
+                    <p:commandButton icon="fa fa-trash-o" action="#{produtoController.removeProduto()}" update="form:mensagens form:tabela">
+                        <f:setPropertyActionListener value="#{produto}" target="#{produtoController.produto}"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>

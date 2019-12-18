@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class LoginController implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private Usuario usuario;
 
     public LoginController() {

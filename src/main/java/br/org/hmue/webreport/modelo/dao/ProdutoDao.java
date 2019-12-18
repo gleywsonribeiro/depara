@@ -31,18 +31,16 @@ public class ProdutoDao implements Serializable {
         connection = SingleConnection.getConnection();
     }
 
-    public List<Produto> listarProdutos(Long esp, Long clas, Long subclas) {
+    public List<Produto> listarProdutos(Long esp, Long clas) {
         List<Produto> lista = new ArrayList<>();
         String e = esp != null ? "and cd_especie = " + esp.toString() + " " : "\n";
         String c = clas != null ? "and cd_classe = " + clas.toString() + " " : "\n";
-        String s = subclas != null ? "and cd_sub_cla = " + subclas.toString() + " " : "\n";
 
         String sql = "select * "
                 + "from depara_produto "
                 + "where 1 = 1 "
                 + e
-                + c
-                + s;
+                + c;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -60,13 +58,15 @@ public class ProdutoDao implements Serializable {
                 p.setEspecie(especie);
                 p.setClasse(classe);
                 p.setSubclasse(subClasse);
-
-                p.setDeparaProduto((Long) resultSet.getObject("cd_depara_integra"));
+                p.setNovo(resultSet.getObject("cd_depara_integra") == null);
+                p.setDeparaProduto(resultSet.getLong("cd_depara_integra"));
                 lista.add(p);
             }
 
-        } catch (SQLException ex) { 
+        } catch (SQLException ex) {
             JsfUtil.addErrorMessage("Erro ao filtrar " + ex.getMessage());
+        } catch (ClassCastException cce) {
+            JsfUtil.addErrorMessage("Erro ao fazer conversão: " + cce.getMessage());
         }
         return lista;
     }
@@ -79,7 +79,7 @@ public class ProdutoDao implements Serializable {
         try {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 ResultSet resultSet = statement.executeQuery();
-                
+
                 while (resultSet.next()) {
                     lista.add(new Especie(resultSet.getLong("cd_especie"), resultSet.getString("ds_especie")));
                 }
@@ -99,7 +99,7 @@ public class ProdutoDao implements Serializable {
         try {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 ResultSet resultSet = statement.executeQuery();
-                
+
                 while (resultSet.next()) {
                     lista.add(new Classe(resultSet.getLong("cd_classe"), resultSet.getString("ds_classe"), null));
                 }
@@ -116,13 +116,11 @@ public class ProdutoDao implements Serializable {
 
         String sql = "select s.cd_sub_cla, s.ds_sub_cla from sub_clas s where s.cd_classe = " + codigoClasse;
 
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                ResultSet resultSet = statement.executeQuery();
-                
-                while (resultSet.next()) {
-                    lista.add(new SubClasse(resultSet.getLong("cd_sub_cla"), resultSet.getString("ds_sub_cla"), null));
-                }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                lista.add(new SubClasse(resultSet.getLong("cd_sub_cla"), resultSet.getString("ds_sub_cla"), null));
             }
         } catch (SQLException e) {
             JsfUtil.addErrorMessage("Erro ao carregar SubClasses " + e.getMessage());

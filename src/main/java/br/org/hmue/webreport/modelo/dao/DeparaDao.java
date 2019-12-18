@@ -7,6 +7,7 @@ package br.org.hmue.webreport.modelo.dao;
 
 import br.org.hmue.webreport.factory.SingleConnection;
 import br.org.hmue.webreport.modelo.Depara;
+import br.org.hmue.webreport.modelo.Produto;
 import br.org.hmue.webreport.modelo.TipoDepara;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,12 +26,23 @@ public class DeparaDao {
         connection = SingleConnection.getConnection();
     }
 
+    public void inserir(Produto produto) {
+        Depara depara = new Depara(TipoDepara.CODIGO_PRODUTO, produto.getCodigo(), produto.getDeparaProduto());
+        if (produto.isNovo()) {
+            inserir(depara);
+        } else {
+            atualizar(depara);
+        }
+    }
+
+    public void remover(Produto produto) {
+        Depara depara = new Depara(TipoDepara.CODIGO_PRODUTO, produto.getCodigo(), produto.getDeparaProduto());
+        remover(depara);
+    }
+
     public void inserir(Depara depara) {
-        try {
-
-            String sql = "insert into mvintegra.depara values(?, ?, ?, ?, ?)";
-
-            PreparedStatement statement = connection.prepareStatement(sql);
+        String sql = "insert into mvintegra.depara values(?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql);) {
 
             statement.setString(1, depara.getTipoDepara().toString());
             statement.setLong(2, depara.getMultiEmpresa());

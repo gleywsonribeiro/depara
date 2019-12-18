@@ -9,7 +9,7 @@ import br.org.hmue.webreport.jsf.util.JsfUtil;
 import br.org.hmue.webreport.modelo.Classe;
 import br.org.hmue.webreport.modelo.Especie;
 import br.org.hmue.webreport.modelo.Produto;
-import br.org.hmue.webreport.modelo.SubClasse;
+import br.org.hmue.webreport.modelo.dao.DeparaDao;
 import br.org.hmue.webreport.modelo.dao.ProdutoDao;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,17 +26,17 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ProdutoController implements Serializable {
 
-    private final ProdutoDao dao = new ProdutoDao();
+    Produto produto = new Produto();
 
+    private final ProdutoDao dao = new ProdutoDao();
+    private final DeparaDao deparaDao = new DeparaDao();
 
     private List<Produto> produtos = new ArrayList<>();
     private List<Especie> especies = new ArrayList<>();
     private List<Classe> classes = new ArrayList<>();
-    private List<SubClasse> subClasses = new ArrayList<>();
+
     private Long especie;
     private Long classe;
-    private Long subclasse;
-
 
     @PostConstruct
     private void init() {
@@ -44,19 +44,34 @@ public class ProdutoController implements Serializable {
     }
 
     public void carregaProdutos() {
-        produtos = dao.listarProdutos(especie, classe, subclasse);
+        produtos = dao.listarProdutos(especie, classe);
     }
 
     public void atualizaClasse() {
         classes = dao.listarClasses(especie);
     }
 
-    public void atualizaSubClasse() {
-        subClasses = dao.listarSubClasses(classe);
+    public void salvar() {
+        try {
+            for (Produto produto : produtos) {
+                if (produto.getDeparaProduto() != 0) {
+                    deparaDao.inserir(produto);
+                } else {
+                    if (!produto.isNovo()) {
+                        deparaDao.remover(produto);
+                    }
+                }
+            }
+            JsfUtil.addMessage("Operação realizada com sucesso!");
+            produtos = dao.listarProdutos(especie, classe);
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Erro ao realizar operação");
+        }
+        
     }
 
-    
     public List<Produto> getProdutos() {
+//        carregaProdutos();
         return produtos;
     }
 
@@ -76,10 +91,6 @@ public class ProdutoController implements Serializable {
         return classes;
     }
 
-    public List<SubClasse> getSubClasses() {
-        return subClasses;
-    }
-
     public Long getClasse() {
         return classe;
     }
@@ -88,13 +99,27 @@ public class ProdutoController implements Serializable {
         this.classe = classe;
     }
 
-    public Long getSubclasse() {
-        return subclasse;
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
-    public void setSubclasse(Long subclasse) {
-        this.subclasse = subclasse;
+    public Produto getProduto() {
+        return produto;
     }
 
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
+    public void removeProduto() {
+        try {
+            if (!produto.isNovo()) {
+                deparaDao.remover(produto);
+                JsfUtil.addMessage("Removido com sucesso!");
+            }
+            produtos = dao.listarProdutos(especie, classe);
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Não foi possível remover!");
+        }
+    }
 }
