@@ -38,10 +38,10 @@
 
             <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="20"
                          emptyMessage="Sem registros" editable="true" editMode="cell">
-                <p:column headerText="Código MV" style="width: 100px; text-align: center">
+                <p:column headerText="Código MV" style="width: 100px; text-align: center" sortBy="#{produto.codigo}">
                     <h:outputText value="#{produto.codigo}"/>
                 </p:column>
-                <p:column headerText="Descrição" style="width: 40%">
+                <p:column headerText="Descrição" style="width: 40%" sortBy="#{produto.descricao}">
                     <h:outputText value="#{produto.descricao}"/>
                 </p:column>
                 <p:column headerText="Espécie">
@@ -53,7 +53,7 @@
                 <p:column headerText="Subclasse">
                     <h:outputText value="#{produto.subclasse.descricao}"/>
                 </p:column>
-                <p:column headerText="Código Portal" style="width: 100px; text-align: center">
+                <p:column headerText="Código Portal" style="width: 100px; text-align: center" sortBy="#{produto.deparaProduto}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{produto.deparaProduto}"/>
