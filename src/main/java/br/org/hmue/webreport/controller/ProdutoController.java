@@ -32,6 +32,7 @@ public class ProdutoController implements Serializable {
     private final DeparaDao deparaDao = new DeparaDao();
 
     private List<Produto> produtos = new ArrayList<>();
+    private List<Produto> produtosFiltrados = new ArrayList<>();
     private List<Especie> especies = new ArrayList<>();
     private List<Classe> classes = new ArrayList<>();
 
@@ -122,4 +123,14 @@ public class ProdutoController implements Serializable {
             JsfUtil.addErrorMessage("Não foi possível remover!");
         }
     }
+
+    public List<Produto> getProdutosFiltrados() {
+        return produtosFiltrados;
+    }
+
+    public void setProdutosFiltrados(List<Produto> produtosFiltrados) {
+        this.produtosFiltrados = produtosFiltrados;
+    }
+    
+    
 }

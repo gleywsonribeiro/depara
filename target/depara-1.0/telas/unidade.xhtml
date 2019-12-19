@@ -6,10 +6,38 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="titulo">Unidades</ui:define>
-
     <ui:define name="corpo">
-        <p>Em desenvolvimento</p>
+        <h:form id="form">
+            <p:messages id="mensagens" closable="true"/>
+            <h:outputText value="Depara de Unidades" style="font-size: x-large; font-weight: 400; color: darkblue"/>
+<!--            <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton icon="fa fa-search" value="Buscar" action="{produtoController.carregaProdutos()}" update="tabela mensagens painel"/>
+                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela mensagens" action="{produtoController.salvar()}" />
+                </p:toolbarGroup>
+            </p:toolbar>-->
+
+            <p:panelGrid id="painel" columns="5" style="margin-bottom: 20px;">
+                <p:outputLabel value="Sigla" for="sigla"/>
+                <p:selectOneMenu id="sigla" style="width: 200px" value="#{unidadeController.sigla}" required="true" requiredMessage="Escolha uma Unidade"
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems  var="sigla" value="#{unidadeController.siglas}" itemLabel="#{sigla.descricao}" itemValue="#{sigla.sigla}"  />
+                    
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <p:dataTable id="tabela" value="#{unidadeController.siglas}" var="sigla" paginator="true" rows="20"
+                         emptyMessage="Sem registros">
+                <p:column headerText="Código MV" style="width: 100px; text-align: center" >
+                    <h:outputText value="#{sigla.sigla}"/>
+                </p:column>
+                <p:column headerText="Descrição" style="width: 40%" > 
+                    <h:outputText value="#{sigla.descricao}"/>
+                </p:column>
+                
+            </p:dataTable>
+        </h:form>
     </ui:define>
 
 </ui:composition>
