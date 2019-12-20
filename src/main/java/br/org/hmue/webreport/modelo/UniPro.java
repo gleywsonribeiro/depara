@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.hmue.webreport.modelo.dao;
+package br.org.hmue.webreport.modelo;
 
 /**
  *

@@ -9,20 +9,22 @@ package br.org.hmue.webreport.modelo;
  *
  * @author gleywson
  */
-public class Unidade {
+public class ItemUnidade {
 
     private Long codigo;        //cd_itunidade
     private String sigla;       //cd_unidade
+    private String nome;        //nm_itunidade
     private String descricao;   //ds_itunidade
     private Double fator;       //vl_fator
     private Long depara;        //cd_depara_integra
 
-    public Unidade() {
+    public ItemUnidade() {
     }
 
-    public Unidade(Long codigo, String sigla, String descricao, Double fator, Long depara) {
+    public ItemUnidade(Long codigo, String sigla, String nome, String descricao, Double fator, Long depara) {
         this.codigo = codigo;
         this.sigla = sigla;
+        this.nome = nome;
         this.descricao = descricao;
         this.fator = fator;
         this.depara = depara;
@@ -42,6 +44,14 @@ public class Unidade {
 
     public void setSigla(String sigla) {
         this.sigla = sigla;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
@@ -67,5 +77,7 @@ public class Unidade {
     public void setDepara(Long depara) {
         this.depara = depara;
     }
+
+    
 
 }
