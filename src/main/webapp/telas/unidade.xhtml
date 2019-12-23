@@ -13,7 +13,7 @@
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
                     <p:commandButton icon="fa fa-search" value="Buscar" action="#{unidadeController.buscar()}" update="tabela mensagens"/>
-                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela mensagens"  />
+                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela mensagens" action="#{unidadeController.salvar()}" />
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -27,25 +27,45 @@
                 </p:selectOneMenu>
             </p:panelGrid>
 
-            <p:dataTable id="tabela" value="#{unidadeController.itens}" var="item" paginator="true" rows="20" style="width: 50%"
+            <p:dataTable id="tabela" value="#{unidadeController.itens}" var="item" paginator="true" rows="20" style="width: 50%" editable="true" editMode="cell"
                          emptyMessage="Sem registros">
+
                 <p:column headerText="Código MV" style="width: 100px; text-align: center" >
                     <h:outputText value="#{item.codigo}"/>
                 </p:column>
+
                 <p:column headerText="Código da Unidade"> 
                     <h:outputText value="#{item.sigla}"/>
                 </p:column>
+
                 <p:column headerText="Nome" sortBy="#{item.nome}">
                     <h:outputText value="#{item.nome}"/>
                 </p:column>
+
                 <p:column headerText="Descrição" sortBy="#{item.descricao}">
                     <h:outputText value="#{item.descricao}"/>
                 </p:column>
+
                 <p:column headerText="Fator">
                     <h:outputText value="#{item.fator}"/>
                 </p:column>
-                <p:column headerText="Depara" style="width: 100px; text-align: center" sortBy="#{item.depara}">
-                    <h:outputText value="#{item.depara}"/>
+
+                <p:column headerText="Código Portal" style="width: 100px; text-align: center" sortBy="#{item.depara}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.depara}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.depara}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    <!--<f:convertNumber/>-->
+                </p:column>
+
+                <p:column style="width: 100px; text-align: center">
+                    <p:commandButton icon="fa fa-trash-o" action="#{unidadeController.remover()}" update="form:mensagens form:tabela">
+                        <f:setPropertyActionListener value="#{item}" target="#{unidadeController.unidade}"/>
+                    </p:commandButton>
                 </p:column>
 
             </p:dataTable>

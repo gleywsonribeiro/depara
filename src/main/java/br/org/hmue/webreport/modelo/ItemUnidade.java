@@ -17,17 +17,19 @@ public class ItemUnidade {
     private String descricao;   //ds_itunidade
     private Double fator;       //vl_fator
     private Long depara;        //cd_depara_integra
+    private boolean novo;
 
     public ItemUnidade() {
     }
 
-    public ItemUnidade(Long codigo, String sigla, String nome, String descricao, Double fator, Long depara) {
+    public ItemUnidade(Long codigo, String sigla, String nome, String descricao, Double fator, Long depara, boolean novo) {
         this.codigo = codigo;
         this.sigla = sigla;
         this.nome = nome;
         this.descricao = descricao;
         this.fator = fator;
         this.depara = depara;
+        this.novo = novo;
     }
 
     public Long getCodigo() {
@@ -76,6 +78,14 @@ public class ItemUnidade {
 
     public void setDepara(Long depara) {
         this.depara = depara;
+    }
+
+    public boolean isNovo() {
+        return novo;
+    }
+
+    public void setNovo(boolean novo) {
+        this.novo = novo;
     }
 
     

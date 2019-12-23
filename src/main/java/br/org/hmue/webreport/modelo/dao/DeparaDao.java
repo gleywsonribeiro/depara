@@ -7,6 +7,7 @@ package br.org.hmue.webreport.modelo.dao;
 
 import br.org.hmue.webreport.factory.SingleConnection;
 import br.org.hmue.webreport.modelo.Depara;
+import br.org.hmue.webreport.modelo.ItemUnidade;
 import br.org.hmue.webreport.modelo.Produto;
 import br.org.hmue.webreport.modelo.TipoDepara;
 import java.sql.Connection;
@@ -34,9 +35,23 @@ public class DeparaDao {
             atualizar(depara);
         }
     }
+    
+    public void inserir(ItemUnidade unidade) {
+        Depara depara = new Depara(TipoDepara.CODIGO_UNIDADE, unidade.getCodigo(), unidade.getDepara());
+        if (unidade.isNovo()) {
+            inserir(depara);
+        } else {
+            atualizar(depara);
+        }
+    }
 
     public void remover(Produto produto) {
         Depara depara = new Depara(TipoDepara.CODIGO_PRODUTO, produto.getCodigo(), produto.getDeparaProduto());
+        remover(depara);
+    }
+    
+    public void remover(ItemUnidade unidade) {
+        Depara depara = new Depara(TipoDepara.CODIGO_UNIDADE, unidade.getCodigo(), unidade.getDepara());
         remover(depara);
     }
 

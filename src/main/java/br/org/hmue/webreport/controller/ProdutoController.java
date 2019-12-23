@@ -13,6 +13,7 @@ import br.org.hmue.webreport.modelo.dao.DeparaDao;
 import br.org.hmue.webreport.modelo.dao.ProdutoDao;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -46,6 +47,9 @@ public class ProdutoController implements Serializable {
 
     public void carregaProdutos() {
         produtos = dao.listarProdutos(especie, classe);
+        if(produtos.isEmpty()) {
+            JsfUtil.addWarnMessage("A pesquisa não retornou dados!");
+        }
     }
 
     public void atualizaClasse() {
@@ -54,13 +58,9 @@ public class ProdutoController implements Serializable {
 
     public void salvar() {
         try {
-            for (Produto produto : produtos) {
-                if (produto.getDeparaProduto() != 0) {
-                    deparaDao.inserir(produto);
-                } else {
-                    if (!produto.isNovo()) {
-                        deparaDao.remover(produto);
-                    }
+            for (Produto p : produtos) {
+                if (p.getDeparaProduto() != 0) {
+                    deparaDao.inserir(p);
                 }
             }
             JsfUtil.addMessage("Operação realizada com sucesso!");

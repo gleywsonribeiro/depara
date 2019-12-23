@@ -60,6 +60,7 @@ public class UnidadeDao {
                 item.setDescricao(rs.getString(4));
                 item.setFator(rs.getDouble(5));
                 item.setDepara(rs.getLong(6));
+                item.setNovo(rs.getObject(6) == null);
 
                 unidades.add(item);
             }
