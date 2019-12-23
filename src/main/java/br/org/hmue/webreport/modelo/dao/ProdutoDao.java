@@ -70,6 +70,23 @@ public class ProdutoDao implements Serializable {
         }
         return lista;
     }
+    
+    public int[] totais() {
+        String sql = "select count(*) total, count(cd_depara_integra) cadastrados from depara_produto";
+        int [] totais = new int[2];
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {                
+                totais[0] = rs.getInt(1);
+                totais[1] = rs.getInt(2);
+            }
+            
+        } catch (SQLException e) {
+            System.err.print("Erro");
+        }
+        
+        return totais;
+    }
 
     public List<Especie> listarEspecies() {
         List<Especie> lista = new ArrayList<>();

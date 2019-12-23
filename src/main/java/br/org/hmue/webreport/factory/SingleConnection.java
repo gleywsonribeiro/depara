@@ -1,10 +1,11 @@
 package br.org.hmue.webreport.factory;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SingleConnection {
+public class SingleConnection implements Serializable {
 
     private static final String USERNAME = "dbamv";
     private static final String PASSWORD = "prosaude1973";

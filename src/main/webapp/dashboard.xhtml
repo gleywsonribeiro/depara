@@ -12,6 +12,10 @@
             <p>#{loginController.saudacao()}, seja bem-vindo.</p>
             <p>Use o menu para realização das operações.</p>
         </p:panelGrid>
+        <p:panelGrid columns="2">
+            <p:chart type="pie" model="#{graficoController.pieModelUnidade}" style="width:400px;height:300px" />
+            <p:chart type="pie" model="#{graficoController.pieModelProduto}" style="width:400px;height:300px" />
+        </p:panelGrid>
     </ui:define>
 
 </ui:composition>

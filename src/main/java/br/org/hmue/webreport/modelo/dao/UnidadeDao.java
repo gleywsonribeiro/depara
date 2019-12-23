@@ -9,6 +9,7 @@ import br.org.hmue.webreport.modelo.UniPro;
 import br.org.hmue.webreport.factory.SingleConnection;
 import br.org.hmue.webreport.jsf.util.JsfUtil;
 import br.org.hmue.webreport.modelo.ItemUnidade;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @author gleywson
  */
-public class UnidadeDao {
+public class UnidadeDao implements Serializable {
 
     private final Connection connection;
 
@@ -41,6 +42,23 @@ public class UnidadeDao {
             JsfUtil.addErrorMessage("Erro ao buscar siglas de unidades " + ex.getMessage());
         }
         return lista;
+    }
+
+    public int[] getTotais() {
+        String sql = "select count(*) total, count(cd_depara_integra) cadastrados from depara_unidade";
+        int [] totais = new int[2];
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {                
+                totais[0] = rs.getInt(1);
+                totais[1] = rs.getInt(2);
+            }
+            
+        } catch (SQLException e) {
+            System.err.print("Erro");
+        }
+        
+        return totais;
     }
 
     public List<ItemUnidade> listarItemUnidade(String unidade) {
