@@ -38,10 +38,10 @@
 
             <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="20"
                          emptyMessage="Sem registros" editable="true" editMode="cell">
-                <p:column headerText="Código MV" style="width: 100px; text-align: center" sortBy="#{produto.codigo}">
+                <p:column headerText="Código MV" style="width: 100px; text-align: center" sortBy="#{produto.codigo}" filterBy="#{produto.codigo}" filterMatchMode="contains">
                     <h:outputText value="#{produto.codigo}"/>
                 </p:column>
-                <p:column headerText="Descrição" style="width: 40%" sortBy="#{produto.descricao}">
+                <p:column headerText="Descrição" style="width: 40%" sortBy="#{produto.descricao}" filterBy="#{produto.descricao}" filterMatchMode="contains">
                     <h:outputText value="#{produto.descricao}"/>
                 </p:column>
                 <p:column headerText="Espécie">
