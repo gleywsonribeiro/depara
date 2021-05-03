@@ -11,6 +11,8 @@ import br.org.hmue.webreport.modelo.Classe;
 import br.org.hmue.webreport.modelo.Especie;
 import br.org.hmue.webreport.modelo.Produto;
 import br.org.hmue.webreport.modelo.SubClasse;
+import br.org.hmue.webreport.service.NegocioException;
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,16 +33,11 @@ public class ProdutoDao implements Serializable {
         connection = SingleConnection.getConnection();
     }
 
-    public List<Produto> listarProdutos(Long esp, Long clas) {
+    public List<Produto> listarProdutos() {
         List<Produto> lista = new ArrayList<>();
-        String e = esp != null ? "and cd_especie = " + esp.toString() + " " : "\n";
-        String c = clas != null ? "and cd_classe = " + clas.toString() + " " : "\n";
-
         String sql = "select * "
                 + "from depara_produto "
-                + "where 1 = 1 "
-                + e
-                + c;
+                + "where 1 = 1 ";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -69,6 +66,47 @@ public class ProdutoDao implements Serializable {
             JsfUtil.addErrorMessage("Erro ao fazer conversão: " + cce.getMessage());
         }
         return lista;
+    }
+
+    public Produto buscar(Long id) {
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+
+        try {
+            st = connection.prepareStatement(
+                    "select * from depara_produto  where cd_produto = ?");
+            st.setLong(1, id);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                Produto p = new Produto();
+                p.setCodigo(rs.getLong("cd_produto"));
+                p.setDescricao(rs.getString("ds_produto"));
+
+                Especie especie = new Especie(rs.getLong("cd_especie"), rs.getString("ds_especie"));
+                Classe classe = new Classe(rs.getLong("cd_classe"), rs.getString("ds_classe"), especie);
+                SubClasse subClasse = new SubClasse(rs.getLong("cd_sub_cla"), rs.getString("ds_sub_cla"), classe);
+
+                p.setEspecie(especie);
+                p.setClasse(classe);
+                p.setSubclasse(subClasse);
+                p.setNovo(rs.getObject("cd_depara_integra") == null);
+                p.setDeparaProduto(rs.getLong("cd_depara_integra"));
+                return p;
+            }
+        } catch (SQLException e) {
+            throw new NegocioException(e.getMessage());
+        } finally {
+            try {
+                st.close();
+                rs.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+        return null;
     }
     
     public int[] totais() {

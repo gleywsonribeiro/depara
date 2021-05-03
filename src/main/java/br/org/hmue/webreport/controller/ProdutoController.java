@@ -27,33 +27,17 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ProdutoController implements Serializable {
 
-    Produto produto = new Produto();
+    private Produto produto = new Produto();
+    private Long codigo;
 
     private final ProdutoDao dao = new ProdutoDao();
     private final DeparaDao deparaDao = new DeparaDao();
 
-    private List<Produto> produtos = new ArrayList<>();
-    private List<Produto> produtosFiltrados = new ArrayList<>();
-    private List<Especie> especies = new ArrayList<>();
-    private List<Classe> classes = new ArrayList<>();
-
-    private Long especie;
-    private Long classe;
+    private List<Produto> produtos;
 
     @PostConstruct
     private void init() {
-        especies = dao.listarEspecies();
-    }
-
-    public void carregaProdutos() {
-        produtos = dao.listarProdutos(especie, classe);
-        if(produtos.isEmpty()) {
-            JsfUtil.addWarnMessage("A pesquisa não retornou dados!");
-        }
-    }
-
-    public void atualizaClasse() {
-        classes = dao.listarClasses(especie);
+        produtos = dao.listarProdutos();
     }
 
     public void salvar() {
@@ -64,44 +48,19 @@ public class ProdutoController implements Serializable {
                 }
             }
             JsfUtil.addMessage("Operação realizada com sucesso!");
-            produtos = dao.listarProdutos(especie, classe);
+            produtos = dao.listarProdutos();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Erro ao realizar operação");
         }
         
     }
 
+    public void buscarProduto() {
+        produto = dao.buscar(codigo);
+    }
+
     public List<Produto> getProdutos() {
-//        carregaProdutos();
         return produtos;
-    }
-
-    public Long getEspecie() {
-        return especie;
-    }
-
-    public void setEspecie(Long especie) {
-        this.especie = especie;
-    }
-
-    public List<Especie> getEspecies() {
-        return especies;
-    }
-
-    public List<Classe> getClasses() {
-        return classes;
-    }
-
-    public Long getClasse() {
-        return classe;
-    }
-
-    public void setClasse(Long classe) {
-        this.classe = classe;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
     public Produto getProduto() {
@@ -112,25 +71,24 @@ public class ProdutoController implements Serializable {
         this.produto = produto;
     }
 
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
     public void removeProduto() {
         try {
             if (!produto.isNovo()) {
                 deparaDao.remover(produto);
                 JsfUtil.addMessage("Removido com sucesso!");
             }
-            produtos = dao.listarProdutos(especie, classe);
+            produtos = dao.listarProdutos();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Não foi possível remover!");
         }
     }
 
-    public List<Produto> getProdutosFiltrados() {
-        return produtosFiltrados;
-    }
-
-    public void setProdutosFiltrados(List<Produto> produtosFiltrados) {
-        this.produtosFiltrados = produtosFiltrados;
-    }
-    
-    
 }

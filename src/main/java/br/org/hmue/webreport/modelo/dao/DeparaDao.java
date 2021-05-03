@@ -10,6 +10,8 @@ import br.org.hmue.webreport.modelo.Depara;
 import br.org.hmue.webreport.modelo.ItemUnidade;
 import br.org.hmue.webreport.modelo.Produto;
 import br.org.hmue.webreport.modelo.TipoDepara;
+import br.org.hmue.webreport.service.NegocioException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,7 +73,9 @@ public class DeparaDao {
         } catch (SQLException exp) {
             try {
                 connection.rollback();// Reverte caso dê algum erro
+                throw new NegocioException("RollBack! Não foi possível inserir!");
             } catch (SQLException e1) {
+                throw new NegocioException("Não foi possível inserir ou realizar Rollback!");
             }
         }
     }

@@ -10,7 +10,7 @@ package br.org.hmue.webreport.modelo;
  * @author gleywson
  */
 public class Produto {
-    private long codigo;
+    private Long codigo;
     private String descricao;
     private Especie especie;
     private Classe classe;
@@ -31,11 +31,12 @@ public class Produto {
         this.novo = novo;
     }
 
-    public long getCodigo() {
+
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 

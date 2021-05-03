@@ -12,64 +12,36 @@
             <h:outputText value="Depara de Produtos" style="font-size: x-large; font-weight: 400; color: darkblue"/>
             <p:toolbar style="margin-top: 20px; margin-bottom: 20px">
                 <p:toolbarGroup>
-                    <p:commandButton icon="fa fa-search" value="Buscar" action="#{produtoController.carregaProdutos()}" update="tabela mensagens painel"/>
-                    <p:commandButton icon="fa fa-save" value="Salvar"  update="tabela mensagens" action="#{produtoController.salvar()}" />
+                    <p:commandButton icon="fa fa-save" value="Salvar"  action="#{produtoController.salvar()}" />
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panelGrid id="painel" columns="5" style="margin-bottom: 20px;">
-                <p:outputLabel value="Espécie" for="especie"/>
-                <p:selectOneMenu id="especie" style="width: 200px" value="#{produtoController.especie}" required="true" requiredMessage="Escolha uma espécie"
+            <h:panelGrid id="painel" columns="5" style="margin-bottom: 20px;">
+                <p:outputLabel value="Produto" for="produto"/>
+                <p:selectOneMenu id="produto" style="width: 200px" value="#{produtoController.codigo}"
+                                 required="true" requiredMessage="Escolha um produto"
                                  filter="true" filterMatchMode="contains">
                     <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="especie" value="#{produtoController.especies}" itemLabel="#{especie.descricao}" itemValue="#{especie.codigo}"  />
-                    <p:ajax listener="#{produtoController.atualizaClasse()}" update="classe mensagens" process="@this"/>
+                    <f:selectItems  var="produto" value="#{produtoController.produtos}" itemLabel="#{produto.codigo} - #{produto.descricao}" itemValue="#{produto.codigo}"/>
+                    <p:ajax update="@form" listener="#{produtoController.buscarProduto}" process="@this"/>
                 </p:selectOneMenu>
+            </h:panelGrid>
 
-                <p:outputLabel value="Classe" for="classe"/>
-                <p:selectOneMenu id="classe" style="width: 200px" value="#{produtoController.classe}" 
-                                 filter="true" filterMatchMode="contains">
-                    <f:selectItem itemLabel="Selecione"/>
-                    <f:selectItems  var="classe" value="#{produtoController.classes}" itemLabel="#{classe.descricao}" itemValue="#{classe.codigo}"
-                                    />
-                </p:selectOneMenu>
+            <p:fieldset id="cadastro">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Código: "/>
+                    <p:outputLabel value="#{produtoController.produto.codigo}"/>
 
-            </p:panelGrid>
+                    <p:outputLabel value="Descrição: "/>
+                    <p:outputLabel value="#{produtoController.produto.descricao}"/>
 
-            <p:dataTable id="tabela" value="#{produtoController.produtos}" var="produto" paginator="true" rows="20"
-                         emptyMessage="Sem registros" editable="true" editMode="cell">
-                <p:column headerText="Código MV" style="width: 100px; text-align: center" sortBy="#{produto.codigo}" filterBy="#{produto.codigo}" filterMatchMode="contains">
-                    <h:outputText value="#{produto.codigo}"/>
-                </p:column>
-                <p:column headerText="Descrição" style="width: 40%" sortBy="#{produto.descricao}" filterBy="#{produto.descricao}" filterMatchMode="contains">
-                    <h:outputText value="#{produto.descricao}"/>
-                </p:column>
-                <p:column headerText="Espécie">
-                    <h:outputText value="#{produto.especie.descricao}"/>
-                </p:column>
-                <p:column headerText="Classe">
-                    <h:outputText value="#{produto.classe.descricao}"/>
-                </p:column>
-                <p:column headerText="Subclasse">
-                    <h:outputText value="#{produto.subclasse.descricao}"/>
-                </p:column>
-                <p:column headerText="Código Portal" style="width: 100px; text-align: center" sortBy="#{produto.deparaProduto}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{produto.deparaProduto}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{produto.deparaProduto}"/>
-                        </f:facet>
-                    </p:cellEditor>
-                    <!--<f:convertNumber/>-->
-                </p:column>
-                <p:column style="width: 100px; text-align: center">
-                    <p:commandButton icon="fa fa-trash-o" action="#{produtoController.removeProduto()}" update="form:mensagens form:tabela">
-                        <f:setPropertyActionListener value="#{produto}" target="#{produtoController.produto}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
+                    <p:outputLabel value="Especie: "/>
+                    <p:outputLabel value="#{produtoController.produto.especie.descricao}"/>
+
+                    <p:outputLabel value="Código Portal: "/>
+                    <p:inputText value="#{produtoController.produto.deparaProduto}"/>
+                </h:panelGrid>
+            </p:fieldset>
         </h:form>
     </ui:define>
 
